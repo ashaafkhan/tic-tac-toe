@@ -1,0 +1,241 @@
+.app {
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 24px;
+  padding: 48px 20px 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+.app::before,
+.app::after {
+  content: '';
+  position: absolute;
+  inset: auto;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.35;
+  z-index: -1;
+}
+
+.app::before {
+  top: -120px;
+  right: -120px;
+  background: radial-gradient(circle, #93c5fd 0%, transparent 70%);
+}
+
+.app::after {
+  bottom: -160px;
+  left: -140px;
+  background: radial-gradient(circle, #fecdd3 0%, transparent 70%);
+}
+
+.app__header {
+  text-align: center;
+  animation: fade-in 0.6s ease-out;
+}
+
+.app__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+
+.app__title {
+  font-family: var(--display);
+  font-size: clamp(2.1rem, 4vw, 3.4rem);
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+
+.app__subtitle {
+  margin: 0 auto;
+  max-width: 520px;
+  color: var(--muted);
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  animation: slide-up 0.6s ease-out;
+}
+
+.status {
+  padding: 14px 24px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-weight: 600;
+  font-size: 1.05rem;
+  min-width: min(90vw, 360px);
+  text-align: center;
+  transition: opacity 0.3s ease;
+}
+
+.status--win {
+  border-color: rgba(59, 130, 246, 0.35);
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.status--draw {
+  border-color: rgba(249, 115, 22, 0.35);
+  background: rgba(249, 115, 22, 0.12);
+  color: var(--orange);
+}
+
+.status--turn {
+  color: var(--ink);
+}
+
+.status--x {
+  color: var(--blue);
+}
+
+.status--o {
+  color: var(--rose);
+}
+
+.status--win.status--o {
+  border-color: rgba(225, 29, 72, 0.35);
+  background: rgba(225, 29, 72, 0.12);
+}
+
+.board {
+  width: min(80vw, 360px);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--border);
+  border-radius: 18px;
+  padding: 2px;
+  box-shadow: var(--shadow-soft);
+}
+
+.cell {
+  background: var(--surface);
+  border: none;
+  border-radius: 14px;
+  font-family: var(--mono);
+  font-size: clamp(2.4rem, 8vw, 3.4rem);
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cell:hover:not(:disabled) {
+  background: #f8fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+.cell:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.cell:disabled {
+  cursor: default;
+}
+
+.cell__mark {
+  display: inline-block;
+  transform: scale(0);
+  animation: pop-in 0.15s ease forwards;
+}
+
+.cell--x {
+  color: var(--blue);
+}
+
+.cell--o {
+  color: var(--rose);
+}
+
+.cell--win {
+  background: #fef9c3;
+  box-shadow: inset 0 0 0 2px rgba(234, 179, 8, 0.5);
+  animation: win-glow 0.2s ease-out;
+}
+
+.reset {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 26px;
+  background: var(--surface);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reset:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+
+.reset:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+@keyframes pop-in {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes win-glow {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .app {
+    padding-top: 36px;
+  }
+
+  .status {
+    font-size: 0.95rem;
+  }
+}
